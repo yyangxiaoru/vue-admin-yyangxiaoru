@@ -25,7 +25,11 @@
     </el-table>
     <!-- /表格结束 -->
     <!-- 分页开始 -->
-    <el-pagination layout="prev, pager, next" :total="50"></el-pagination>
+    <el-pagination 
+        layout="prev, pager, next" 
+        :total="orders.total" 
+        @current-change="pageChageHandler">
+        </el-pagination>
     <!-- /分页结束 -->
     <!-- 模态框 -->
    <el-dialog 
@@ -80,7 +84,7 @@ import querystring from 'querystring' //系统库不需加路径
 export default{
   data(){
     return {
-      title:"录入员工信息",
+      
       visible:false,
       employees:[],
       form:{
@@ -124,10 +128,11 @@ export default{
       })
     },
     toAddHandler(){
-      this.title="添加员工信息",
-      this.visible = true;
-
-    },
+            this.form={
+                type:"employee"
+            }
+            this.visible = true;
+        },
     closeModalHandler(){
       this.visible = false;
     },
@@ -137,14 +142,26 @@ export default{
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
+              let url="http://localhost:6677/customer/deleteById?id="+id;
+              request.get(url).then((response)=>{
+                this.loadData();
                 this.$message({
                     type: 'success',
-                    message: '删除成功！'
+                    message:response.message
+        
+
+              });
+              
+                })
+                this.$message({
+                  type:"success",
+                  message: '删除成功！'+id
                 });
             })
     },
     toUpdateHandler(row){
-      this.title="修改员工信息",
+      this.form=row;
+  
       this.visible=true;
 
     }
@@ -156,3 +173,8 @@ export default{
 <style >
  
 </style>
+
+
+
+
+      

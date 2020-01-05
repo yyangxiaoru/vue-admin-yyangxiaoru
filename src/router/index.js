@@ -125,6 +125,31 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/order',
+    component: Layout,
+    children: [
+      {
+        path: 'list',
+        name: 'OrderList',
+        component: () => import('@/pages/order/List'),
+        meta: { title: '订单管理', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '/address',
+    component: Layout,
+    children: [
+      {
+        path: 'List',
+        name: 'AddressList',
+        component: () => import('@/pages/address/List'),
+        meta: { title: '地址管理', icon: 'table' }
+      }
+    ]
+  },
+
 
   /*{
     path: '/nested',
